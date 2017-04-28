@@ -180,6 +180,7 @@ class tmux_cmd(object):
         cmd = [str(c) for c in cmd]
         print('tmux_cmd_dbg1: ' + ' ' + str(cmd))
 
+        print('tmux_cmd:here1')
         self.cmd = cmd
 
         try:
@@ -213,6 +214,7 @@ class tmux_cmd(object):
             if not self.stdout:
                 self.stdout = self.stderr[0]
 
+        print('tmux_cmd:here5')
         logger.debug(
             'self.stdout for %s: \n%s' %
             (' '.join(cmd), self.stdout)

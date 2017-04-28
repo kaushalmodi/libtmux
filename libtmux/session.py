@@ -59,6 +59,7 @@ class Session(
                 return True
 
         try:
+            print('in session::_info')
             return list(filter(by, self.server._sessions))[0]
         except IndexError as e:
             logger.error(e)

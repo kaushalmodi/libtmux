@@ -117,10 +117,12 @@ class Server(TmuxRelationalObject, EnvironmentMixin):
         sformats = formats.SESSION_FORMATS
         tmux_formats = ['#{%s}' % f for f in sformats]
 
+        print('server::list_sessions: here1')
         tmux_args = (
             '-F%s' % '\t'.join(tmux_formats),   # output
         )
 
+        print('server::list_sessions: here2' + ' ' + str(tmux_args))
         proc = self.cmd(
             'list-sessions',
             *tmux_args
@@ -148,6 +150,7 @@ class Server(TmuxRelationalObject, EnvironmentMixin):
     @property
     def _sessions(self):
         """Property / alias to return :meth:`~._list_sessions`."""
+        print('in _sessions')
 
         return self._list_sessions()
 
