@@ -81,7 +81,10 @@ class Server(TmuxRelationalObject, EnvironmentMixin):
 
         """
 
+        print('server::cmd_dbg0: ' + ' ' + str(args) + ' ' + str(kwargs))
         args = list(args)
+        print('server::cmd_dbg1: ' + ' ' + str(args))
+
         if self.socket_name:
             args.insert(0, '-L{0}'.format(self.socket_name))
         if self.socket_path:
@@ -96,6 +99,7 @@ class Server(TmuxRelationalObject, EnvironmentMixin):
             else:
                 raise ValueError('Server.colors must equal 88 or 256')
 
+        print('server::cmd_dbg2')
         return tmux_cmd(*args, **kwargs)
 
     def _list_sessions(self):

@@ -89,8 +89,10 @@ class Window(TmuxMappingObject, TmuxRelationalObject):
             Renamed from ``.tmux`` to ``.cmd``.
 
         """
+        print('cmd_dbg1: ' + str(cmd) + ' ' + str(args) + ' ' + str(kwargs))
         if not any(arg.startswith('-t') for arg in args):
             args = ('-t', self.id) + args
+        print('cmd_dbg2: ' + str(cmd) + ' ' + str(args) + ' ' + str(kwargs))
 
         return self.server.cmd(cmd, *args, **kwargs)
 
@@ -140,6 +142,7 @@ class Window(TmuxMappingObject, TmuxRelationalObject):
             :exc:`exc.InvalidOption`, :exc:`exc.AmbiguousOption`
         """
 
+        print('\n=== Setting Window Option ===')
         self.server._update_windows()
 
         if isinstance(value, bool) and value:
@@ -147,13 +150,13 @@ class Window(TmuxMappingObject, TmuxRelationalObject):
         elif isinstance(value, bool) and not value:
             value = 'off'
 
+        print('set_w_opt_dbg: "' + str(value) + '"')
         cmd = self.cmd(
             'set-window-option',
             '-t%s:%s' % (self.get('session_id'), self.index),
             # '-t%s' % self.id,
             option, value
         )
-
         if isinstance(cmd.stderr, list) and len(cmd.stderr):
             handle_option_error(cmd.stderr[0])
 
@@ -170,20 +173,29 @@ class Window(TmuxMappingObject, TmuxRelationalObject):
         :rtype: :py:obj:`dict`
 
         """
+        print(' == Showing Window Option ===')
 
+        print(' show_w_opt_dbg: here1')
         tmux_args = tuple()
 
+        print(' show_w_opt_dbg: here2')
         if g:
+            print(' show_w_opt_dbg: here3')
             tmux_args += ('-g',)
 
         if option:
+            print(' show_w_opt_dbg: here4 ' + str(option) + ' ' + str(g))
             return self.show_window_option(option, g=g)
         else:
+            print(' show_w_opt_dbg: here5')
             tmux_args += ('show-window-options',)
             cmd = self.cmd(
                 *tmux_args
             ).stdout
 
+        print(' show_w_opt_dbg: here6')
+
+        print(cmd)
         # The shlex.split function splits the args at spaces, while also
         # retaining quoted sub-strings.
         #   shlex.split('this is "a test"') => ['this', 'is', 'a test']

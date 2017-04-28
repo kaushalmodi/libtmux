@@ -173,9 +173,12 @@ class tmux_cmd(object):
         if not tmux_bin:
             raise(exc.TmuxCommandNotFound)
 
+        print('tmux_cmd_dbg0: ' + ' ' + str(args) + ' ' + str(kwargs))
+
         cmd = [tmux_bin]
         cmd += args  # add the command arguments to cmd
         cmd = [str(c) for c in cmd]
+        print('tmux_cmd_dbg1: ' + ' ' + str(cmd))
 
         self.cmd = cmd
 
